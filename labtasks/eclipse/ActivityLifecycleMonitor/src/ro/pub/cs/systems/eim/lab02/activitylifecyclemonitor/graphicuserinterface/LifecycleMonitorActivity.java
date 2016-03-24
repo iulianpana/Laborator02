@@ -18,29 +18,39 @@ import ro.pub.cs.systems.eim.lab02.activitylifecyclemonitor.general.Constants;
 import ro.pub.cs.systems.eim.lab02.activitylifecyclemonitor.general.Utilities;
 
 public class LifecycleMonitorActivity extends Activity {
-	
+
 	private ButtonClickListener buttonClickListener = new ButtonClickListener();
-	
+
 	private class ButtonClickListener implements Button.OnClickListener {
-		
+
 		@Override
 		@SuppressLint("InflateParams")
 		public void onClick(View view) {
-			EditText usernameEditText = (EditText)findViewById(R.id.username_edit_text);
-			EditText passwordEditText = (EditText)findViewById(R.id.password_edit_text);
-			
-			if(((Button)view).getText().toString().equals(getResources().getString(R.string.ok_button_content))) {
-				LayoutInflater layoutInflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+			EditText usernameEditText = (EditText) findViewById(R.id.username_edit_text);
+			EditText passwordEditText = (EditText) findViewById(R.id.password_edit_text);
+
+			if (((Button) view)
+					.getText()
+					.toString()
+					.equals(getResources()
+							.getString(R.string.ok_button_content))) {
+				LayoutInflater layoutInflater = (LayoutInflater) getBaseContext()
+						.getSystemService(LAYOUT_INFLATER_SERVICE);
 				String username = usernameEditText.getText().toString();
 				String password = passwordEditText.getText().toString();
 				View popupContent = null;
-				if (Utilities.allowAccess(getApplicationContext(), username, password)) {
-					popupContent = layoutInflater.inflate(R.layout.popup_window_authentication_success, null);
+				if (Utilities.allowAccess(getApplicationContext(), username,
+						password)) {
+					popupContent = layoutInflater.inflate(
+							R.layout.popup_window_authentication_success, null);
 				} else {
-					popupContent = layoutInflater.inflate(R.layout.popup_window_authentication_fail, null);
+					popupContent = layoutInflater.inflate(
+							R.layout.popup_window_authentication_fail, null);
 				}
-				final PopupWindow popupWindow = new PopupWindow(popupContent, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-				Button dismissButton = (Button)popupContent.findViewById(R.id.dismiss_button);
+				final PopupWindow popupWindow = new PopupWindow(popupContent,
+						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				Button dismissButton = (Button) popupContent
+						.findViewById(R.id.dismiss_button);
 				dismissButton.setOnClickListener(new Button.OnClickListener() {
 					@Override
 					public void onClick(View view) {
@@ -49,26 +59,46 @@ public class LifecycleMonitorActivity extends Activity {
 				});
 				popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 			}
-			
-			if(((Button)view).getText().toString().equals(getResources().getString(R.string.cancel_button_content))) {
-				usernameEditText.setText(getResources().getString(R.string.empty));
-				passwordEditText.setText(getResources().getString(R.string.empty));
+
+			if (((Button) view)
+					.getText()
+					.toString()
+					.equals(getResources().getString(
+							R.string.cancel_button_content))) {
+				usernameEditText.setText(getResources().getString(
+						R.string.empty));
+				passwordEditText.setText(getResources().getString(
+						R.string.empty));
 			}
 		}
-		
+
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_lifecycle_monitor);
-		
-		Button okButton = (Button)findViewById(R.id.ok_button);
+
+		Button okButton = (Button) findViewById(R.id.ok_button);
 		okButton.setOnClickListener(buttonClickListener);
-		Button cancelButton = (Button)findViewById(R.id.cancel_button);
+		Button cancelButton = (Button) findViewById(R.id.cancel_button);
 		cancelButton.setOnClickListener(buttonClickListener);
-		
+
 		Log.d(Constants.TAG, "onCreate() method was invoked");
+	}
+
+	@Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		super.onRestart();
+		Log.d(Constants.TAG, "onRestart() method was invoked");
+	}
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		Log.d(Constants.TAG, "onStart() method was invoked");
 	}
 
 	@Override
